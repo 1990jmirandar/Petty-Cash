@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Execute Request</title>
+    </h:head>
+    <h:body>
+        <h:form id="frm">
+
+            <center>
+                <h2>Entrega de Solicitudes</h2>
+                <p:dataTable id="dtbRequest" style="width:800px " value="#{executeMoneyBean.listaRequestMoney}" var="rm" selection="#{executeMoneyBean.listaRequestMoneySelected}" rowKey="#{rm.idRM}">
+                    
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center">
+                    </p:column>
+                    
+                    <p:ajax event="rowSelectCheckbox" 
+                            update=":frm:txtRequest"
+                            listener="#{executeMoneyBean.requestDelivery()}" />
+                    
+                    <p:ajax event="rowUnselectCheckbox" 
+                            update=":frm:txtRequest"
+                            listener="#{executeMoneyBean.requestDelivery()}" />
+                    
+                    <p:ajax event="toggleSelect" 
+                            update=":frm:txtRequest"
+                            listener="#{executeMoneyBean.requestDelivery()}" />
+                    
+                    <p:column headerText="Nombre Solicitante">
+                        <h:outputText value="#{rm.nombreRM}" />
+                    </p:column>
+                    <p:column headerText="valor">
+                        <h:outputText value="#{rm.valorRM}" />
+                    </p:column>
+                </p:dataTable>
+                <h:panelGrid columns="2">
+                    <h:outputText value="Balance Actual" />
+                    <h:outputText value="#{executeMoneyBean.currentBalance}" />
+                    <h:outputText value="Valores a atender" />
+                    <h:outputText id="txtRequest" value="#{executeMoneyBean.deliveryRequest}" />
+                </h:panelGrid>
+                <p:commandButton value="Confirmar" actionListener="#{executeMoneyBean.save()}" update=":frm" />
+                <h:messages globalOnly="true" />
+            </center>
+        </h:form>
+        
+    </h:body>
+</html>
+
